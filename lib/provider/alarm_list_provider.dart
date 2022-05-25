@@ -27,7 +27,7 @@ class AlarmListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  int generateAlarmId() {
+  int getAvailableAlarmId() {
     int id = 14;
     for (final alarm in _alarms) {
       if (alarm.id != id) {

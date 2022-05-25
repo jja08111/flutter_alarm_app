@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     if (time == null) return;
 
     final alarm = Alarm(
-      id: alarmListProvider.generateAlarmId(),
+      id: alarmListProvider.getAvailableAlarmId(),
       timeOfDay: time,
       enabled: true,
     );
