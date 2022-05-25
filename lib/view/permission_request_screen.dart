@@ -19,7 +19,7 @@ class PermissionRequestScreen extends StatefulWidget {
 }
 
 class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
-  static const String _preferenceKey = "hasPermissionRequested";
+  static const String _isGrantedAllKey = "hasPermissionRequested";
 
   void _setPermission(BuildContext context) async {
     if (await Permission.systemAlertWindow.status != PermissionStatus.granted) {
@@ -35,7 +35,7 @@ class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
                 PermissionStatus.granted;
 
     if (grantedAll) {
-      await widget.preferences.setBool(_preferenceKey, true);
+      await widget.preferences.setBool(_isGrantedAllKey, true);
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -46,7 +46,7 @@ class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.preferences.getBool(_preferenceKey) ?? false) {
+    if (widget.preferences.getBool(_isGrantedAllKey) ?? false) {
       return widget.child;
     }
     return Scaffold(
