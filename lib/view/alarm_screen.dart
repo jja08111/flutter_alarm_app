@@ -13,8 +13,32 @@ class AlarmScreen extends StatefulWidget {
   State<AlarmScreen> createState() => _AlarmScreenState();
 }
 
-class _AlarmScreenState extends State<AlarmScreen> {
-  void _dismissAlarm(BuildContext context) async {
+class _AlarmScreenState extends State<AlarmScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
+    // TODO: 음악 재생하기
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.paused:
+        _dismissAlarm();
+        break;
+      default:
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void _dismissAlarm() async {
     final alarmState = context.read<AlarmState>();
     final callbackAlarmId = alarmState.callbackAlarmId!;
     // 알람 콜백 ID는 `AlarmScheduler`에 의해 일(0), 월(1), 화(2), ... , 토요일(6) 만큼 더해져 있다.
@@ -40,9 +64,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
               style: Theme.of(context).textTheme.headline4,
             ),
             TextButton(
-              onPressed: () {
-                _dismissAlarm(context);
-              },
+              onPressed: _dismissAlarm,
               child: const Text('알람 해제'),
             ),
           ],
