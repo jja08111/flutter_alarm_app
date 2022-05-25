@@ -11,6 +11,7 @@ class AlarmListProvider extends ChangeNotifier {
     return _alarms[index];
   }
 
+  // TODO: 실제로 로컬 기기에 저장하기
   void add(Alarm alarm) {
     _alarms.add(alarm);
     notifyListeners();
@@ -18,6 +19,11 @@ class AlarmListProvider extends ChangeNotifier {
 
   void remove(Alarm alarm) {
     _alarms.remove(alarm);
+    notifyListeners();
+  }
+
+  void replace(Alarm oldAlarm, Alarm newAlarm) {
+    _alarms[_alarms.indexOf(oldAlarm)] = newAlarm;
     notifyListeners();
   }
 

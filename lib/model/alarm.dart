@@ -20,4 +20,13 @@ class Alarm {
   int createCallbackIdWith(int weekday) {
     return id + weekday;
   }
+
+  Alarm copyWith({TimeOfDay? timeOfDay, bool? enabled}) {
+    return Alarm(
+      id: id,
+      timeOfDay: timeOfDay ?? this.timeOfDay,
+      enabled: enabled ?? this.enabled,
+      weekday: weekday,
+    );
+  }
 }

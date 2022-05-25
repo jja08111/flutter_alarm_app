@@ -27,9 +27,51 @@ class HomeScreen extends StatelessWidget {
     await AlarmScheduler.scheduleRepeatable(alarm);
   }
 
+  void _switchAlarm(
+    AlarmListProvider alarmListProvider,
+    Alarm alarm,
+    bool enabled,
+  ) async {
+    final newAlarm = alarm.copyWith(enabled: enabled);
+    alarmListProvider.replace(
+      alarm,
+      newAlarm,
+    );
+    if (enabled) {
+      await AlarmScheduler.scheduleRepeatable(newAlarm);
+    } else {
+      await AlarmScheduler.cancelRepeatable(newAlarm);
+    }
+  }
+
+  void _handleCardTap(
+    AlarmListProvider alarmList,
+    Alarm alarm,
+    BuildContext context,
+  ) async {
+    final time = await showTimePicker(
+      context: context,
+      initialTime: const TimeOfDay(hour: 8, minute: 30),
+    );
+    if (time == null) return;
+
+    final newAlarm = alarm.copyWith(timeOfDay: time);
+
+    alarmList.replace(alarm, newAlarm);
+    if (alarm.enabled) await AlarmScheduler.cancelRepeatable(alarm);
+    if (newAlarm.enabled) await AlarmScheduler.scheduleRepeatable(newAlarm);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Flutter Alarm App')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _createAlarm(context, context.read<AlarmListProvider>());
+        },
+        child: const Icon(Icons.add),
+      ),
       body: Center(
         child: Column(
           children: [
@@ -38,16 +80,19 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, alarmList, child) => ListView.builder(
                   itemCount: alarmList.length,
                   itemBuilder: (context, index) {
-                    return _AlarmItem(alarm: alarmList[index]);
+                    final alarm = alarmList[index];
+                    return _AlarmCard(
+                      alarm: alarm,
+                      onTapSwitch: (enabled) {
+                        _switchAlarm(alarmList, alarm, enabled);
+                      },
+                      onTapCard: () {
+                        _handleCardTap(alarmList, alarm, context);
+                      },
+                    );
                   },
                 ),
               ),
-            ),
-            TextButton(
-              child: const Text('알람 생성'),
-              onPressed: () {
-                _createAlarm(context, context.read<AlarmListProvider>());
-              },
             ),
           ],
         ),
@@ -56,18 +101,44 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// TODO: 탭 가능 하도록 수정, 더 많은 정보 보이도록 수정
-class _AlarmItem extends StatelessWidget {
-  const _AlarmItem({Key? key, required this.alarm}) : super(key: key);
+class _AlarmCard extends StatelessWidget {
+  const _AlarmCard({
+    Key? key,
+    required this.alarm,
+    required this.onTapSwitch,
+    required this.onTapCard,
+  }) : super(key: key);
 
   final Alarm alarm;
+  final void Function(bool enabled) onTapSwitch;
+  final VoidCallback onTapCard;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [Text(alarm.timeOfDay.toString())],
+    final theme = Theme.of(context);
+
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: InkWell(
+        onTap: onTapCard,
+        borderRadius: BorderRadius.circular(12.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  alarm.timeOfDay.format(context),
+                  style: theme.textTheme.headline6,
+                ),
+              ),
+              Switch(
+                value: alarm.enabled,
+                onChanged: onTapSwitch,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
