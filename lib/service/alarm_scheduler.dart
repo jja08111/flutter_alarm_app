@@ -10,9 +10,9 @@ class AlarmScheduler {
         final callbackId = alarm.createCallbackIdWith(weekday);
         final time = alarm.timeOfDay.toComingDateTimeAt(weekday);
 
-        debugPrint('Alarm scheduled at $time');
         // 이전 알람은 취소 후 설정한다.
         await _oneShot(callbackId, time);
+        debugPrint('Alarm scheduled at $time');
       }
     }
   }
@@ -24,6 +24,7 @@ class AlarmScheduler {
         final callbackId = alarm.createCallbackIdWith(weekday);
 
         await AndroidAlarmManager.cancel(callbackId);
+        debugPrint('#$callbackId alarm canceled');
       }
     }
   }
