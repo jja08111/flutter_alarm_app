@@ -5,8 +5,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/android_alarm_manager_plus"
-      ref: HEAD
-      resolved-ref: dae067d32ececed60ad56758a2fee1f5aaba4858
+      ref: alarm_app
+      resolved-ref: "28f6a6f24611609a2eb655b0c3280bef931f7f7a"
       url: "https://github.com/jja08111/plus_plugins.git"
     source: git
     version: "1.0.2"

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_alarm_app/service/alarm_flag_manager.dart';
 import 'package:flutter_alarm_app/provider/alarm_state.dart';
 
@@ -16,6 +17,7 @@ class AlarmPollingWorker {
   void createPollingWorker(AlarmState alarmState) async {
     if (_running) return;
 
+    debugPrint('Starts polling worker');
     _running = true;
     final int? callbackAlarmId = await _poller(10);
     _running = false;

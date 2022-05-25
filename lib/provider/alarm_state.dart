@@ -9,9 +9,10 @@ class AlarmState extends ChangeNotifier {
   void fire(int alarmId) {
     _callbackAlarmId = alarmId;
     notifyListeners();
+    debugPrint('Alarm has fired #$alarmId');
   }
 
-  void clear() {
+  void dismiss() {
     _callbackAlarmId = null;
     notifyListeners();
   }
