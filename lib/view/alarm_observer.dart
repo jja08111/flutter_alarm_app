@@ -15,7 +15,7 @@ class AlarmObserver extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AlarmObserverState createState() => _AlarmObserverState();
+  State<AlarmObserver> createState() => _AlarmObserverState();
 }
 
 class _AlarmObserverState extends State<AlarmObserver>
