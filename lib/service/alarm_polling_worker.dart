@@ -23,7 +23,7 @@ class AlarmPollingWorker {
     _running = false;
 
     if (callbackAlarmId != null) {
-      if (alarmState.callbackAlarmId == null) {
+      if (!alarmState.isFired) {
         alarmState.fire(callbackAlarmId);
       }
       await AlarmFlagManager().clear();
