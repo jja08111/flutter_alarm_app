@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class FileHandler<T> {
@@ -15,20 +14,19 @@ abstract class FileHandler<T> {
     return directory.path;
   }
 
-  @nonVirtual
-  Future<File> get localFile async {
+  Future<File> get _localFile async {
     final path = await _localPath;
     return File('$path/$fileName');
   }
 
   Future<File> write(T object) async {
-    final file = await localFile;
+    final file = await _localFile;
     return file.writeAsString(jsonEncode(object));
   }
 
   Future<T?> read() async {
     try {
-      final file = await localFile;
+      final file = await _localFile;
       String contents = await file.readAsString();
       return parse(jsonDecode(contents));
     } catch (e) {
