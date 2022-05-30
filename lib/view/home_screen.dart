@@ -19,7 +19,8 @@ class HomeScreen extends StatelessWidget {
 
     final alarm = Alarm(
       id: alarmListProvider.getAvailableAlarmId(),
-      timeOfDay: time,
+      hour: time.hour,
+      minute: time.minute,
       enabled: true,
     );
 
@@ -51,11 +52,11 @@ class HomeScreen extends StatelessWidget {
   ) async {
     final time = await showTimePicker(
       context: context,
-      initialTime: const TimeOfDay(hour: 8, minute: 30),
+      initialTime: alarm.timeOfDay,
     );
     if (time == null) return;
 
-    final newAlarm = alarm.copyWith(timeOfDay: time);
+    final newAlarm = alarm.copyWith(hour: time.hour, minute: time.minute);
 
     alarmList.replace(alarm, newAlarm);
     if (alarm.enabled) await AlarmScheduler.cancelRepeatable(alarm);

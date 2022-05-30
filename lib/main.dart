@@ -1,6 +1,8 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_app/model/alarm.dart';
 import 'package:flutter_alarm_app/provider/alarm_list_provider.dart';
+import 'package:flutter_alarm_app/service/alarm_file_handler.dart';
 import 'package:flutter_alarm_app/service/alarm_polling_worker.dart';
 import 'package:flutter_alarm_app/provider/alarm_state.dart';
 import 'package:flutter_alarm_app/view/alarm_observer.dart';
@@ -19,10 +21,12 @@ void main() async {
   // 앱 진입시 알람 탐색을 시작해야 한다.
   AlarmPollingWorker().createPollingWorker(alarmState);
 
+  final List<Alarm> alarms = await AlarmFileHandler().read() ?? [];
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => alarmState),
-      ChangeNotifierProvider(create: (context) => AlarmListProvider()),
+      ChangeNotifierProvider(create: (context) => AlarmListProvider(alarms)),
     ],
     child: MyApp(preferences: await SharedPreferences.getInstance()),
   ));

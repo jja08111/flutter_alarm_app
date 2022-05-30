@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_app/model/alarm.dart';
+import 'package:flutter_alarm_app/service/alarm_file_handler.dart';
 
 class AlarmListProvider extends ChangeNotifier {
-  final List<Alarm> _alarms = [];
+  AlarmListProvider(this._alarms);
+
+  final AlarmFileHandler _fileHandler = AlarmFileHandler();
+
+  final List<Alarm> _alarms;
 
   int get length => _alarms.length;
 
@@ -11,19 +16,25 @@ class AlarmListProvider extends ChangeNotifier {
     return _alarms[index];
   }
 
-  // TODO: 실제로 로컬 기기에 저장하기
+  Future<void> _updateFile() async {
+    await _fileHandler.write(_alarms);
+  }
+
   void add(Alarm alarm) {
     _alarms.add(alarm);
+    _updateFile();
     notifyListeners();
   }
 
   void remove(Alarm alarm) {
     _alarms.remove(alarm);
+    _updateFile();
     notifyListeners();
   }
 
   void replace(Alarm oldAlarm, Alarm newAlarm) {
     _alarms[_alarms.indexOf(oldAlarm)] = newAlarm;
+    _updateFile();
     notifyListeners();
   }
 
