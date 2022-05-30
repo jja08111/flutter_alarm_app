@@ -17,7 +17,7 @@ class Alarm {
     required this.enabled,
   }) : assert(weekday.length == 7);
 
-  int createCallbackIdWith(int weekday) {
+  int callbackIdOf(int weekday) {
     return id + weekday;
   }
 

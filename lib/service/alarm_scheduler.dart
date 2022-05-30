@@ -7,7 +7,7 @@ class AlarmScheduler {
     // sun, mon, ... , sat
     for (int weekday = 0; weekday < 7; ++weekday) {
       if (alarm.weekday[weekday]) {
-        final callbackId = alarm.createCallbackIdWith(weekday);
+        final callbackId = alarm.callbackIdOf(weekday);
         final time = alarm.timeOfDay.toComingDateTimeAt(weekday);
 
         await _oneShot(callbackId, time);
@@ -20,7 +20,7 @@ class AlarmScheduler {
     // sun, mon, ... , sat
     for (int weekday = 0; weekday < 7; ++weekday) {
       if (alarm.weekday[weekday]) {
-        final callbackId = alarm.createCallbackIdWith(weekday);
+        final callbackId = alarm.callbackIdOf(weekday);
 
         await AndroidAlarmManager.cancel(callbackId);
         debugPrint('#$callbackId alarm canceled');
