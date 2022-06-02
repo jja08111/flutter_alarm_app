@@ -25,16 +25,11 @@ class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
     if (await Permission.systemAlertWindow.status != PermissionStatus.granted) {
       await Permission.systemAlertWindow.request();
     }
-    if (await Permission.ignoreBatteryOptimizations.status !=
-        PermissionStatus.granted) {
-      await Permission.ignoreBatteryOptimizations.request();
-    }
-    final grantedAll =
-        await Permission.systemAlertWindow.status == PermissionStatus.granted &&
-            await Permission.ignoreBatteryOptimizations.status ==
-                PermissionStatus.granted;
 
-    if (grantedAll) {
+    final granted =
+        await Permission.systemAlertWindow.status == PermissionStatus.granted;
+
+    if (granted) {
       await widget.preferences.setBool(_isGrantedAllKey, true);
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -54,7 +49,7 @@ class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('알람 작동을 위한 권한들을 허용해주세요.'),
+            const Text('알람 작동을 위한 권한을 허용해주세요.'),
             TextButton(
               onPressed: () {
                 _setPermission(context);
