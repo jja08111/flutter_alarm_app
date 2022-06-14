@@ -20,6 +20,7 @@ class PermissionProvider extends ChangeNotifier {
 
     if (await Permission.systemAlertWindow.status == PermissionStatus.granted) {
       await _preferences.setBool(_systemAlertWindowGranted, true);
+      notifyListeners();
       return true;
     }
     return false;
