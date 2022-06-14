@@ -52,9 +52,7 @@ class _AlarmObserverState extends State<AlarmObserver>
         final callbackId = state.callbackAlarmId!;
         Alarm? alarm = context.read<AlarmListProvider>().getAlarmBy(callbackId);
         if (alarm != null) {
-          alarmScreen = AlarmScreen(
-            alarm: alarm,
-          );
+          alarmScreen = AlarmScreen(alarm: alarm);
         }
       }
       return IndexedStack(
