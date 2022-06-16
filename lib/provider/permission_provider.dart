@@ -5,12 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PermissionProvider extends ChangeNotifier {
   PermissionProvider(this._preferences);
 
-  static const String _systemAlertWindowGranted = "systemAlertWindowGranted";
+  @visibleForTesting
+  static const String systemAlertWindowGranted = "systemAlertWindowGranted";
 
   final SharedPreferences _preferences;
 
   bool isGrantedAll() {
-    return _preferences.getBool(_systemAlertWindowGranted) ?? false;
+    return _preferences.getBool(systemAlertWindowGranted) ?? false;
   }
 
   Future<bool> requestSystemAlertWindow() async {
@@ -19,7 +20,7 @@ class PermissionProvider extends ChangeNotifier {
     }
 
     if (await Permission.systemAlertWindow.status == PermissionStatus.granted) {
-      await _preferences.setBool(_systemAlertWindowGranted, true);
+      await _preferences.setBool(systemAlertWindowGranted, true);
       notifyListeners();
       return true;
     }
