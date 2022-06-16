@@ -14,7 +14,7 @@ class AlarmPollingWorker {
   bool _running = false;
 
   /// 알람 플래그 탐색을 시작한다.
-  void createPollingWorker(AlarmState alarmState) async {
+  Future<void> createPollingWorker(AlarmState alarmState) async {
     if (_running) return;
 
     debugPrint('Starts polling worker');

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AlarmFlagManager {
@@ -7,16 +8,17 @@ class AlarmFlagManager {
 
   AlarmFlagManager._();
 
-  static const String _alarmFlagKey = "alarmFlagKey";
+  @visibleForTesting
+  static const String alarmFlagKey = "alarmFlagKey";
 
   Future<int?> getFiredId() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.reload();
-    return prefs.getInt(_alarmFlagKey);
+    return prefs.getInt(alarmFlagKey);
   }
 
   Future<void> clear() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_alarmFlagKey);
+    await prefs.remove(alarmFlagKey);
   }
 }
