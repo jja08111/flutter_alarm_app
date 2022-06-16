@@ -4,7 +4,7 @@ import 'package:flutter_alarm_app/service/alarm_polling_worker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'fake_alarm.dart';
+import '../fake/fake_alarm.dart';
 
 void main() {
   test('fires alarm if alarm flag exists', () async {

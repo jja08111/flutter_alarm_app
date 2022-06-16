@@ -6,7 +6,7 @@ import 'package:flutter_alarm_app/view/alarm_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-import 'fake_alarm.dart';
+import '../fake/fake_alarm.dart';
 
 void main() {
   testWidgets('shows AlarmScreen if alarm is fired', (tester) async {

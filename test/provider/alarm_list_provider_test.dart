@@ -5,7 +5,7 @@ import 'package:flutter_alarm_app/model/alarm.dart';
 import 'package:flutter_alarm_app/provider/alarm_list_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'fake_alarm.dart';
+import '../fake/fake_alarm.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
