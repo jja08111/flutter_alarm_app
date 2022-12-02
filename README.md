@@ -1,6 +1,6 @@
 # flutter_alarm_app example
  
-Flutter 알람 기능 구현 예제 어플입니다.
+[Flutter로 알람 앱 기능 구현하기 - 코딩하는 만두](https://jja08111.github.io/flutter/flutter-alarm-app/) 글의 예제 어플입니다.
 
 ## TODO
 - [x] 앱을 종료해도 알람을 유지할 수 있게 알람 리스트를 로컬 파일에 저장하기
